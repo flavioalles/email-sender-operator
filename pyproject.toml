@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "email-sender-operator"
+version = "0.1.0"
+description = "Kubernetes operator managing CRD's aimed at sending emails."
+authors = ["Flavio Alles"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "~3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
