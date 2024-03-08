@@ -1,0 +1,10 @@
+apiVersion: "stable.email-sender-operator.dev/v1"
+kind: Email
+metadata:
+  name: an-email-via-mailer-send
+  namespace: dev
+spec:
+  senderConfigRef: mailer-send
+  recipientEmail: flavio.alles@pm.me
+  subject: "An email"
+  body: "Some message."
