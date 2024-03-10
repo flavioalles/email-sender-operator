@@ -40,8 +40,8 @@ create-examples:
 	  | kubectl apply -f -
 	@examples/custom-resources/create.sh
 
-.PHONY: destroy-examples
-destroy-examples:
+.PHONY: delete-examples
+delete-examples:
 	@kubectl delete secret mail-gun-api-token
 	@kubectl delete secret mailer-send-api-token
 	@examples/custom-resources/delete.sh
