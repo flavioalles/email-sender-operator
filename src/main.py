@@ -41,7 +41,7 @@ def email_handler(name, namespace, reason, spec, uid, **_):
             logging.warning(
                 f"{base_log} will not manage Email with unknown sender config."
             )
-            mail, sender = None, None
+            mail = None
         else:
             logging.info(f"{base_log} EmailSenderConfig acquired.")
 
@@ -59,22 +59,17 @@ def email_handler(name, namespace, reason, spec, uid, **_):
                 {mail.status.delivery_status}."""
             )
 
-        return mail, sender
+        return mail
 
-    def _send(mail, sender):
+    def _send(mail):
         """
         TODO: doc.
         """
         try:
-            sender.send(
-                spec.get("body"),
-                spec.get("recipientEmail"),
-                spec.get("subject"),
-                uid
-            )
+            mail.send()
         except AttributeError:
             logging.warning(
-                f"""{base_log} Sender unset. Nothing to do."""
+                f"""{base_log} Unknown sender. Nothing to do."""
             )
         except esc.MailSendingFailure as exc:
             logging.error(f"{base_log} {str(exc)}")
@@ -94,4 +89,4 @@ def email_handler(name, namespace, reason, spec, uid, **_):
     base_log = f"(handler/Email) ({namespace}/{name}/{uid})"
     logging.info(f"{base_log} {reason.upper()}D.")
 
-    _send(*_email())
+    _send(_email())

@@ -80,4 +80,9 @@ class Email(CRD):
         """
         TODO: doc.
         """
-        pass
+        self.sender_config_ref.send(
+            self.body,
+            self.recipient_email,
+            self.subject,
+            self.uid
+        )
