@@ -1,7 +1,7 @@
 apiVersion: "stable.email-sender-operator.dev/v1"
 kind: EmailSenderConfig
 metadata:
-  name: unknown
+  name: mail-gun
   namespace: default
 spec:
-  senderEmail: noreply@unknown.domain
+  senderEmail: ${MAIL_GUN_SENDER_EMAIL}

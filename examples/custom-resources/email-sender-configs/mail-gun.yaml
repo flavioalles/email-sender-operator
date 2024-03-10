@@ -1,8 +1,0 @@
-apiVersion: "stable.email-sender-operator.dev/v1"
-kind: EmailSenderConfig
-metadata:
-  name: mail-gun
-  namespace: dev
-spec:
-  apiToken: an-api-token
-  senderEmail: noreply@sandboxcabbcc090841487bbce7276194ce96e0.mailgun.org

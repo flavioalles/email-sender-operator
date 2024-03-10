@@ -2,7 +2,7 @@ apiVersion: "stable.email-sender-operator.dev/v1"
 kind: Email
 metadata:
   name: a-failed-email-via-mailer-send
-  namespace: dev
+  namespace: default
 spec:
   senderConfigRef: mailer-send
   recipientEmail: "not-a-valid-email"

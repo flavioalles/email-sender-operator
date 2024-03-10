@@ -2,9 +2,9 @@ apiVersion: "stable.email-sender-operator.dev/v1"
 kind: Email
 metadata:
   name: a-proper-email-via-mailer-send
-  namespace: dev
+  namespace: default
 spec:
   senderConfigRef: mailer-send
-  recipientEmail: flavio.alles@pm.me
+  recipientEmail: ${MAILER_SEND_RECIPIENT_EMAIL}
   subject: "A successful attempt sent via Mailer Send."
   body: "Some message successfully sent via Mailer Send."

@@ -2,6 +2,6 @@ apiVersion: "stable.email-sender-operator.dev/v1"
 kind: EmailSenderConfig
 metadata:
   name: mailer-send
-  namespace: dev
+  namespace: default
 spec:
-  senderEmail: noreply@trial-z3m5jgrm2kz4dpyo.mlsender.net
+  senderEmail: ${MAILER_SEND_SENDER_EMAIL}

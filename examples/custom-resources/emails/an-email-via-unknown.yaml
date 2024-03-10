@@ -2,9 +2,9 @@ apiVersion: "stable.email-sender-operator.dev/v1"
 kind: Email
 metadata:
   name: an-email-via-unknown
-  namespace: dev
+  namespace: default
 spec:
   senderConfigRef: unknown
-  recipientEmail: flavio.alles@pm.me
+  recipientEmail: unknown@unknown.domain
   subject: "An attempt sent via Unknown."
   body: "Some message that will not be processed."

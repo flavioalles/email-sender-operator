@@ -54,19 +54,37 @@ run-controller:
 
 .PHONY: create-examples
 create-examples:
-	# NOTE: assumes existence of namespace dev.
-	# NOTE: assumes existence of CRD's (i.e. esc and eml).
-	# TODO: check if api-token ENV's have been created.
-	@envsubst \
-	  < examples/secrets/mail-gun-api-token.envsubst.yaml \
-	  | kubectl apply -f -
-	@envsubst \
-	  < examples/secrets/mailer-send-api-token.envsubst.yaml \
-	  | kubectl apply -f -
-	@examples/custom-resources/create.sh
+ifndef MAIL_GUN_SENDER_EMAIL
+	@echo "MAIL_GUN_SENDER_EMAIL has not been set."
+	@exit 1
+endif
+ifndef MAIL_GUN_RECIPIENT_EMAIL
+	@echo "MAIL_GUN_RECIPIENT_EMAIL has not been set."
+	@echo "Exiting without creating examples."
+	@exit 1
+endif
+ifndef MAIL_GUN_API_TOKEN
+	@echo "MAIL_GUN_API_TOKEN has not been set."
+	@echo "Exiting without creating examples."
+	@exit 1
+endif
+ifndef MAILER_SEND_SENDER_EMAIL
+	@echo "MAILER_SEND_SENDER_EMAIL has not been set."
+	@echo "Exiting without creating examples."
+	@exit 1
+endif
+ifndef MAILER_SEND_RECIPIENT_EMAIL
+	@echo "MAILER_SEND_RECIPIENT_EMAIL has not been set."
+	@echo "Exiting without creating examples."
+	@exit 1
+endif
+ifndef MAILER_SEND_API_TOKEN
+	@echo "MAILER_SEND_API_TOKEN has not been set."
+	@echo "Exiting without creating examples."
+	@exit 1
+endif
+	@examples/create.sh
 
 .PHONY: delete-examples
 delete-examples:
-	@kubectl delete secret mail-gun-api-token
-	@kubectl delete secret mailer-send-api-token
-	@examples/custom-resources/delete.sh
+	@examples/delete.sh
