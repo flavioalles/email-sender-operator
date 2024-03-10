@@ -5,10 +5,10 @@ help:
 	@echo "Available targets are:"
 	@echo
 	@echo "Operation:"
-	@echo
-	@echo "Development & testing:"
 	@echo "\t install-operator \t\t Installs operator."
 	@echo "\t run-controller   \t\t Starts controller."
+	@echo
+	@echo "Development & testing:"
 	@echo "\t install-project  \t\t Installs python project dependencies."
 	@echo "\t create-examples  \t\t Creates example objects (at examples/custom-resources)."
 	@echo "\t delete-examples  \t\t Deletes example objects (at examples/custom-resources)."
