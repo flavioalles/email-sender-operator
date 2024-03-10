@@ -31,8 +31,8 @@ install-controller: poetry
 .PHONY: create-crds
 install-operator:
 	# NOTE: assumes existence of namespace dev.
-	@kubectl apply -f crd/email-sender-config.yaml
-	@kubectl apply -f crd/email.yaml
+	@kubectl apply -f email-sender-operator/crd.email-sender-config.yaml
+	@kubectl apply -f email-sender-operator/crd.email.yaml
 
 .PHONY: run-controller
 run-controller:
