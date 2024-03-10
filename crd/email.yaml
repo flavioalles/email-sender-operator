@@ -13,11 +13,8 @@ spec:
           type: object
           properties:
             spec:
-              # NOTE: should it be an object?
               type: object
               properties:
-                # NOTE: Reference to EmailSenderConfig
-                # TODO: Validate?
                 senderConfigRef:
                   type: string
                 recipientEmail:
