@@ -50,7 +50,7 @@ endif
 
 .PHONY: run-controller
 run-controller:
-	@poetry run kopf run --all-namespaces src/main.py
+	@poetry run kopf run --all-namespaces src/handlers.py
 
 .PHONY: create-examples
 create-examples:
