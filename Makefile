@@ -9,13 +9,24 @@ help:
 	@echo "\t run-controller   \t\t Starts controller."
 	@echo
 	@echo "Development & testing:"
-	@echo "\t install-project  \t\t Installs python project dependencies."
-	@echo "\t create-examples  \t\t Creates example objects (at examples/custom-resources)."
-	@echo "\t delete-examples  \t\t Deletes example objects (at examples/custom-resources)."
+	@echo "\t install-controller-with-dev  \t\t Installs all controller's Python project dependencies."
+	@echo "\t install-controller           \t\t Installs controller's Python project dependencies (excl. dev)."
+	@echo "\t create-examples              \t\t Creates example objects (at examples/custom-resources)."
+	@echo "\t delete-examples              \t\t Deletes example objects (at examples/custom-resources)."
 
-.PHONY: install
-install:
+.PHONY: poetry
+poetry:
+	# NOTE: Could be problematic if not run inside virtualenv.
+	# NOTE: Consider creating one before using it.
+	@pip install poetry==1.8.2
+
+.PHONY: install-controller-with-dev
+install-controller-with-dev: poetry
 	@poetry install --with=dev
+
+.PHONY: install-controller
+install-controller: poetry
+	@poetry install
 
 .PHONY: create-crds
 install-operator:
