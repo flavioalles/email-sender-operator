@@ -9,6 +9,7 @@ help:
 	@echo "\t run-controller   \t\t Starts controller."
 	@echo
 	@echo "Development & testing:"
+	@echo "\t build-image                  \t\t Builds controller's Docker image."
 	@echo "\t install-controller-with-dev  \t\t Installs all controller's Python project dependencies."
 	@echo "\t install-controller           \t\t Installs controller's Python project dependencies (excl. dev)."
 	@echo "\t create-examples              \t\t Creates example objects (at examples/custom-resources)."
@@ -33,6 +34,17 @@ install-operator:
 	# NOTE: assumes existence of namespace dev.
 	@kubectl apply -f email-sender-operator/crd.email-sender-config.yaml
 	@kubectl apply -f email-sender-operator/crd.email.yaml
+
+.PHONY: build-image
+build-image:
+ifdef TAG
+	@docker build --tag $(TAG) .
+else
+	@echo "Nothing to do: TAG unset."
+endif
+
+	@echo "Nothing to do: IMAGE unset."
+endif
 
 .PHONY: run-controller
 run-controller:
