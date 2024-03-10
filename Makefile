@@ -54,9 +54,6 @@ else
 	@echo "Nothing to do: TAG unset."
 endif
 
-	@echo "Nothing to do: IMAGE unset."
-endif
-
 .PHONY: run-controller
 run-controller:
 	@kopf run --all-namespaces src/main.py
