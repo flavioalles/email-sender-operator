@@ -6,8 +6,8 @@ import emails as eml
 import email_sender_configs as esc
 
 
-@kopf.on.create("EmailSenderConfig")
-@kopf.on.update("EmailSenderConfig")
+@kopf.on.create("EmailSenderConfig", backoff=30, retries=3, timeout=60)
+@kopf.on.update("EmailSenderConfig", backoff=30, retries=3, timeout=60)
 def email_sender_config_handler(name, namespace, reason, **_):
     """
     TODO: doc.
@@ -23,7 +23,7 @@ def email_sender_config_handler(name, namespace, reason, **_):
     else:
         logging.info(f"{base_log} Known sender {reason.upper()}D.")
 
-@kopf.on.create("Email")
+@kopf.on.create("Email", backoff=30, retries=3, timeout=60)
 def email_handler(name, namespace, reason, spec, uid, **_):
     """
     TODO: doc.
