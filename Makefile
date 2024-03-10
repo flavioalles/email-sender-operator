@@ -46,6 +46,7 @@ ifdef TAG
 	@docker build --tag $(TAG) .
 else
 	@echo "Nothing to do: TAG unset."
+	@exit 1
 endif
 
 .PHONY: run-controller
