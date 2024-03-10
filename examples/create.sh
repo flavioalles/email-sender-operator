@@ -3,10 +3,10 @@
 BASE_PATH="examples"
 
 envsubst \
-  < $BASE_PATH/secrets/mail-gun-api-token.envsubst.yaml \
+  < $BASE_PATH/secrets/mail-gun.envsubst.yaml \
   | kubectl apply -f -
 envsubst \
-  < $BASE_PATH/secrets/mailer-send-api-token.envsubst.yaml \
+  < $BASE_PATH/secrets/mailer-send.envsubst.yaml \
   | kubectl apply -f -
 envsubst \
   < $BASE_PATH/custom-resources/email-sender-configs/mail-gun.envsubst.yaml \

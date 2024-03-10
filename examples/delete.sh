@@ -2,8 +2,8 @@
 
 BASE_PATH="examples/custom-resources"
 
-kubectl delete secret mail-gun-api-token
-kubectl delete secret mailer-send-api-token
+kubectl delete secret mail-gun
+kubectl delete secret mailer-send
 kubectl delete -f $BASE_PATH/email-sender-configs/mail-gun.envsubst.yaml
 kubectl delete -f $BASE_PATH/email-sender-configs/mailer-send.envsubst.yaml
 kubectl delete -f $BASE_PATH/email-sender-configs/unknown.yaml

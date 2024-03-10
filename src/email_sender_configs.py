@@ -38,10 +38,9 @@ class EmailSenderConfig(CRD):
         """
         super().__init__(namespace, name)
 
-        # TODO: add NOTE on -api-token suffix and data field (apiToken).
         # NOTE: this could be better - does not have to live here.
         self.api_token = b64decode(client.CoreV1Api(self.api).read_namespaced_secret(
-            f"{name}-api-token",
+            f"{name}",
             namespace
         ).data.get("apiToken")).decode("UTF-8")
         self.sender_email = self._sender_email
