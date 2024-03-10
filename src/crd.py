@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import logging
 
 from kubernetes import client, config
 
@@ -43,7 +44,13 @@ class CRD:
         """
         TODO: doc.
         """
-        config.load_kube_config()
+        try:
+            config.load_kube_config()
+        except config.config_exception.ConfigException:
+            logging.debug(
+                "ConfigException raised. Will silence it - assuming login via ServiceAccount."
+            )
+            config.load_incluster_config()
 
         return client.ApiClient()
 
