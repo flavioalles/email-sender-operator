@@ -1,10 +1,10 @@
 apiVersion: "stable.email-sender-operator.dev/v1"
 kind: Email
 metadata:
-  name: an-email-via-mail-gun
+  name: a-proper-email-via-mail-gun
   namespace: dev
 spec:
   senderConfigRef: mail-gun
   recipientEmail: flavio.alles@pm.me
-  subject: "Another email"
-  body: "Some other message."
+  subject: "A successful attempt sent via Mail Gun."
+  body: "Some message successfully sent via Mail Gun."
