@@ -5,13 +5,14 @@ help:
 	@echo "Available targets are:"
 	@echo
 	@echo "Operation:"
-	@echo "\t install-operator \t\t Installs operator."
-	@echo "\t run-controller   \t\t Starts controller."
+	@echo "\t install-operator   \t\t Installs operator into cluster."
+	@echo "\t uninstall-operator \t\t Uninstalls operator from cluster."
 	@echo
 	@echo "Development & testing:"
 	@echo "\t build-image                  \t\t Builds controller's Docker image."
 	@echo "\t install-controller-with-dev  \t\t Installs all controller's Python project dependencies."
 	@echo "\t install-controller           \t\t Installs controller's Python project dependencies (excl. dev)."
+	@echo "\t run-controller               \t\t Starts controller."
 	@echo "\t create-examples              \t\t Creates example objects (at examples/custom-resources)."
 	@echo "\t delete-examples              \t\t Deletes example objects (at examples/custom-resources)."
 
@@ -29,11 +30,21 @@ install-controller-with-dev: poetry
 install-controller: poetry
 	@poetry install
 
-.PHONY: create-crds
+.PHONY: install-operator
 install-operator:
 	# NOTE: assumes existence of namespace dev.
 	@kubectl apply -f email-sender-operator/crd.email-sender-config.yaml
 	@kubectl apply -f email-sender-operator/crd.email.yaml
+	@kubectl apply -f email-sender-operator/rbac.email-sender-operator.yaml
+	@kubectl apply -f email-sender-operator/deployment.email-sender-operator.yaml
+
+.PHONY: uninstall-operator
+uninstall-operator:
+	# NOTE: assumes existence of namespace dev.
+	@kubectl delete -f email-sender-operator/crd.email-sender-config.yaml
+	@kubectl delete -f email-sender-operator/crd.email.yaml
+	@kubectl delete -f email-sender-operator/rbac.email-sender-operator.yaml
+	@kubectl delete -f email-sender-operator/deployment.email-sender-operator.yaml
 
 .PHONY: build-image
 build-image:
