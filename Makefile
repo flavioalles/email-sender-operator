@@ -32,19 +32,13 @@ install-controller: poetry
 
 .PHONY: install-operator
 install-operator:
-	# NOTE: assumes existence of namespace dev.
-	@kubectl apply -f email-sender-operator/crd.email-sender-config.yaml
-	@kubectl apply -f email-sender-operator/crd.email.yaml
-	@kubectl apply -f email-sender-operator/rbac.email-sender-operator.yaml
-	@kubectl apply -f email-sender-operator/deployment.email-sender-operator.yaml
+	@helm install --atomic --namespace default --timeout 60s \
+		email-sender-operator \
+		email-sender-operator/ \
 
 .PHONY: uninstall-operator
 uninstall-operator:
-	# NOTE: assumes existence of namespace dev.
-	@kubectl delete -f email-sender-operator/crd.email-sender-config.yaml
-	@kubectl delete -f email-sender-operator/crd.email.yaml
-	@kubectl delete -f email-sender-operator/rbac.email-sender-operator.yaml
-	@kubectl delete -f email-sender-operator/deployment.email-sender-operator.yaml
+	@helm uninstall --namespace default email-sender-operator
 
 .PHONY: build-image
 build-image:

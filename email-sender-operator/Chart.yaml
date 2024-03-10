@@ -1,0 +1,4 @@
+apiVersion: v2
+name: email-sender-operator
+description: Kubernetes operator managing CRD's aimed at sending emails
+version: 0.1.0+dev
