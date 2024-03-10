@@ -8,7 +8,7 @@ help:
 	@echo
 	@echo "Development & testing:"
 	@echo "\t install-operator \t\t Installs operator."
-	@echo "\t run-operator     \t\t Starts operator."
+	@echo "\t run-controller   \t\t Starts controller."
 	@echo "\t install-project  \t\t Installs python project dependencies."
 	@echo "\t create-examples  \t\t Creates example objects (at examples/custom-resources)."
 	@echo "\t delete-examples  \t\t Deletes example objects (at examples/custom-resources)."
@@ -23,8 +23,8 @@ install-operator:
 	@kubectl apply -f crd/email-sender-config.yaml
 	@kubectl apply -f crd/email.yaml
 
-.PHONY: run-operator
-run-operator:
+.PHONY: run-controller
+run-controller:
 	@kopf run --all-namespaces src/main.py
 
 .PHONY: create-examples
