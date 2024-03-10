@@ -1,6 +1,7 @@
 from base64 import b64decode
 from dataclasses import dataclass
 
+from kopf import PermanentError
 from kubernetes import client
 from mailersend import emails
 import requests
@@ -8,14 +9,14 @@ import requests
 from crd import CRD
 
 
-class UnknownEmailSender(Exception):
+class UnknownEmailSender(PermanentError):
     """
     TODO: doc.
     """
     pass
 
 
-class MailSendingFailure(Exception):
+class MailSendingFailure(PermanentError):
     """
     TODO: doc.
     """
