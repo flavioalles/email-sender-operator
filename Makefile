@@ -5,20 +5,27 @@ help:
 	@echo "Available targets are:"
 	@echo
 	@echo "Operation:"
-	@echo "\t run             \t\t Starts operator."
 	@echo
 	@echo "Development & testing:"
-	@echo "\t install         \t\t Installs python project dependencies."
-	@echo "\t create-examples \t\t Creates example objects (at examples/custom-resources)."
-	@echo "\t delete-examples \t\t Deletes example objects (at examples/custom-resources)."
+	@echo "\t install-operator \t\t Installs operator."
+	@echo "\t run-operator     \t\t Starts operator."
+	@echo "\t install-project  \t\t Installs python project dependencies."
+	@echo "\t create-examples  \t\t Creates example objects (at examples/custom-resources)."
+	@echo "\t delete-examples  \t\t Deletes example objects (at examples/custom-resources)."
 
 .PHONY: install
 install:
 	@poetry install --with=dev
 
-.PHONY: run
-run:
-	@kopf run src/main.py
+.PHONY: create-crds
+install-operator:
+	# NOTE: assumes existence of namespace dev.
+	@kubectl apply -f crd/email-sender-config.yaml
+	@kubectl apply -f crd/email.yaml
+
+.PHONY: run-operator
+run-operator:
+	@kopf run --all-namespaces src/main.py
 
 .PHONY: create-examples
 create-examples:
