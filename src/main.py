@@ -48,6 +48,7 @@ def email_handler(name, namespace, reason, spec, uid, **_):
             mail = eml.Email(
                 namespace,
                 name,
+                sender,
                 spec.get("body"),
                 spec.get("recipientEmail"),
                 spec.get("subject")

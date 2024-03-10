@@ -4,7 +4,7 @@ from enum import Enum
 from kubernetes import client
 
 from crd import CRD, CustomResourceStatus
-# from email_sender_config
+from email_sender_configs import EmailSenderConfig
 
 
 class EmailDeliveryStatus(Enum):
@@ -39,7 +39,7 @@ class Email(CRD):
     """
     TODO: doc.
     # """
-    # sender_config_ref:
+    sender_config_ref: EmailSenderConfig
     group: str = "stable.email-sender-operator.dev"
     version: str = "v1"
     plural: str = "emails"
@@ -47,12 +47,13 @@ class Email(CRD):
     recipient_email: str
     subject: str
 
-    def __init__(self, namespace, name, body, recipient_email, subject):
+    def __init__(self, namespace, name, sender, body, recipient_email, subject):
         """
         TODO: doc.
         """
         super().__init__(namespace, name)
 
+        self.sender_config_ref = sender
         self.body = body
         self.recipient_email = recipient_email
         self.subject = subject
