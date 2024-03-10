@@ -4,5 +4,4 @@ metadata:
   name: unknown
   namespace: dev
 spec:
-  apiToken: an-api-token
   senderEmail: noreply@unknown.domain

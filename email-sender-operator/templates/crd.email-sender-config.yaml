@@ -15,8 +15,6 @@ spec:
             spec:
               type: object
               properties:
-                apiToken:
-                  type: string
                 senderEmail:
                   type: string
   scope: Namespaced
