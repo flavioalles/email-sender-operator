@@ -38,12 +38,18 @@ class EmailSenderConfig(CRD):
         """
         super().__init__(namespace, name)
 
-        # NOTE: this could be better - does not have to live here.
-        self.api_token = b64decode(client.CoreV1Api(self.api).read_namespaced_secret(
-            f"{name}",
-            namespace
-        ).data.get("apiToken")).decode("UTF-8")
+        self.api_token = self._api_token
         self.sender_email = self._sender_email
+
+    @property
+    def _api_token(self):
+        """
+        TODO: doc.
+        """
+        return b64decode(client.CoreV1Api(self.api).read_namespaced_secret(
+            self.name,
+            self.namespace
+        ).data.get("apiToken")).decode("UTF-8")
 
     @property
     def _sender_email(self):
