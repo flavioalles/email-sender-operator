@@ -107,7 +107,6 @@ class MailerSend(EmailSenderConfig):
         """
         TODO: doc.
         """
-        # TODO: move up/down the inheritance chain?
         try:
             int(result)
         except ValueError:
