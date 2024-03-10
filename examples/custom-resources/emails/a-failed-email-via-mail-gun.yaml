@@ -5,6 +5,6 @@ metadata:
   namespace: dev
 spec:
   senderConfigRef: mail-gun
-  recipientEmail: flavio.alles@pm.me
+  recipientEmail: "not-a-valid-email"
   subject: "A failed attempt sent via Mail Gun."
   body: "Some message unsuccessfully sent via Mail Gun."

@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 from kubernetes import client
 from mailersend import emails
+import requests
 
 from crd import CRD
 
@@ -62,11 +63,40 @@ class MailGun(EmailSenderConfig):
     """
     TODO: doc.
     """
+    @property
+    def _domain(self):
+        """
+        TODO: doc.
+        """
+        # NOTE: this could be more elegant.
+        return self.sender_email.split("@", 1)[1]
+
+    @property
+    def _url(self):
+        """
+        TODO: doc.
+        """
+        return f"https://api.mailgun.net/v3/{self._domain}/messages"
+
     def send(self, body, recipient, subject, uid):
         """
         TODO: doc.
         """
-        raise MailSendingFailure("Not implemented yet.")
+        try:
+            requests.post(
+                self._url,
+                auth=("api", self.api_token),
+                data={
+                    "from": self.sender_email,
+                    "to": [recipient],
+                    "subject": subject,
+                    "text": body
+                }
+            ).raise_for_status()
+        except requests.exceptions.HTTPError as exc:
+            raise MailSendingFailure(
+                f"Failed to send email with id {uid} (reason: {exc})."
+            )
 
 class MailerSend(EmailSenderConfig):
     """

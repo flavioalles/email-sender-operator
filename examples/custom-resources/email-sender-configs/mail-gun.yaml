@@ -5,4 +5,4 @@ metadata:
   namespace: dev
 spec:
   apiToken: an-api-token
-  senderEmail: flavio.alles@proton.me
+  senderEmail: noreply@sandboxcabbcc090841487bbce7276194ce96e0.mailgun.org

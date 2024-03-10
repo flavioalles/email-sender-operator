@@ -12,6 +12,7 @@ python = "~3.12"
 kopf = "~1.37"
 kubernetes = "~29.0"
 mailersend = "~0.5"
+requests = "~2.31"
 
 
 [tool.poetry.group.dev.dependencies]
