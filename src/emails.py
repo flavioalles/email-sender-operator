@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
 
-from kubernetes import client
-
 from crd import CRD, CustomResourceStatus
 from email_sender_configs import EmailSenderConfig
 
