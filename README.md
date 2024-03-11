@@ -109,7 +109,8 @@ testing/validation.
     seemed to make sense.
 - There are no configurable elements in the Helm chart (located at `email-sender-operator/`.
     Installation occurs in the `default` namespace and the image used for the `Deployment`
-    is set to [`flavioalles/email-sender-operator:latest`](https://hub.docker.com/repository/docker/flavioalles/email-sender-operator/general).
+    is set to [`flavioalles/email-sender-operator:0.1.0`](https://hub.docker.com/layers/flavioalles/email-sender-operator/0.1.0/images/sha256-c49fa6d610122e95dfcd3035729bd528c3ccba9bda116568328a1b69e300c5f7).
 - Diverging from the requirements, for security's sake, the EmailSenderConfig CRD has no
     `apiToken` property. A `Secret` with the same name is expected to Mention use of Secret - and no apiToken on CRD.
 - The `Email` Custom Resource object's UID was used as the status' `messageId`.
+- The project lacks (and needs) proper automated testing.
