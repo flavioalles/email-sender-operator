@@ -7,20 +7,30 @@ from kubernetes import client, config
 @dataclass
 class CustomResourceStatus:
     """
-    TODO: doc.
+    Base class for extension by children to represent a custom object's status.
+
+    Note:
+        Type used in CRD's (below) status attribute.
     """
 
     @property
     def _serialized(self):
         """
-        TODO: doc.
+        Should return a serialized version of status.
+
+        Returns:
+            dict: Namespaced Custom Resource status.
         """
         pass
 
 
 class CRD:
     """
-    TODO: doc.
+    Base class for extension by children representing some form of CRD.
+
+    Note:
+        Supports namespaced CustomResourceDefinitions only - i.e. no support for
+        cluster-wide CRD's.
     """
 
     api: client.ApiClient
@@ -34,7 +44,11 @@ class CRD:
 
     def __init__(self, namespace, name):
         """
-        TODO: doc.
+        (Base) Constructor.
+
+        Args:
+            namespace (str): kubernetes namespace where Custom Resource resides.
+            name (str): Custom Resource name.
         """
         self.api = self._api()
         self.namespace = namespace
@@ -44,7 +58,13 @@ class CRD:
     @staticmethod
     def _api():
         """
-        TODO: doc.
+        Sets up authentication configuration with cluster and build kubernetes API client.
+
+        Returns:
+            client.ApiClient: kubernetes API client.
+
+        Note:
+            Meant to be private (i.e. used within this class and its children only).
         """
         try:
             config.load_kube_config()
@@ -59,7 +79,13 @@ class CRD:
     @property
     def _resource(self):
         """
-        TODO: doc.
+        Gets namespaced Custom Resource represented by CRD instance from cluster API.
+
+        Returns:
+            object: Namespaced Custom Object represented by class instance.
+
+        Note:
+            Meant to be private (i.e. used within this class and its children only).
         """
         return client.CustomObjectsApi(self.api).get_namespaced_custom_object(
             self.group, self.version, self.namespace, self.plural, self.name
@@ -68,7 +94,14 @@ class CRD:
     @property
     def _status(self):
         """
-        TODO: doc.
+        Gets status of namespaced Custom Resource represented by CRD instance from
+        cluster API.
+
+        Returns:
+            dict: Namespaced Custom Object represented by class instance.
+
+        Note:
+            Meant to be private (i.e. used within this class and its children only).
         """
         return (
             client.CustomObjectsApi(self.api)
@@ -80,14 +113,24 @@ class CRD:
 
     def set_status(self, status: CustomResourceStatus):
         """
-        TODO: doc.
+        Sets status attribute on class instance and patches namespaced Custom Resource
+        object's status via cluster API.
+
+        Args:
+            status (CustomResourceStatus): object containing new Custom Resource status.
         """
         self.status = status
         self._patch_resource_status(self.status)
 
     def _patch_resource_status(self, status: CustomResourceStatus):
         """
-        TODO: doc.
+        Patches namespaced Custom Resource object's status via cluster API.
+
+        Args:
+            status (CustomResourceStatus): object containing new Custom Resource status.
+
+        Note:
+            Meant to be private (i.e. used within this class and its children only).
         """
         client.CustomObjectsApi(self.api).patch_namespaced_custom_object(
             self.group,
@@ -101,6 +144,12 @@ class CRD:
     @property
     def _uid(self):
         """
-        TODO: doc.
+        Gets namespaced Custom Resource's object UID from cluster API.
+
+        Returns:
+            str: Namespaced Custom Resource's object UID.
+
+        Note:
+            Meant to be private (i.e. used within this class and its children only).
         """
         return self._resource.get("metadata").get("uid")

@@ -10,7 +10,18 @@ import email_sender_configs as esc
 @kopf.on.update("EmailSenderConfig", backoff=30, retries=3, timeout=60)
 def email_sender_config_handler(name, namespace, reason, **_):
     """
-    TODO: doc.
+    kopf handler for created/updated EmailSenderConfigs.
+
+    Args:
+        name (str): name of EmailSenderConfig for which event (i.e. create/update) has
+            happened.
+        namespace (str): namespace of EmailSenderConfig for which event (i.e.
+            create/update) has happened.
+        reason (str): event (i.e. create/update) which triggered handler.
+
+    Note:
+        Almost a NOP. It basically determines if EmailSenderConfig has controller
+        implementation or not and logs its findings.
     """
     base_log = f"(handler/EmailSenderConfig) ({namespace}/{name})"
 
@@ -25,13 +36,23 @@ def email_sender_config_handler(name, namespace, reason, **_):
 @kopf.on.create("Email", backoff=30, retries=3, timeout=60)
 def email_handler(name, namespace, reason, spec, uid, **_):
     """
-    TODO: doc.
+    kopf handler for created Emails.
+
+    For Emails with known EmailSenderConfigs, sends email and sets object status (i.e.
+    delivery status and ID). For FAILED Emails, no retry is ever made - i.e. client
+    error is assumed.
+
+    Emails with unknown EmailSenderConfig are ignored.
+
+    Args:
+        name (str): name of Email for which event (i.e. create) has happened.
+        namespace (str): namespace of Email for which event (i.e.create) has happened.
+        reason (str): event (i.e. create/update) which triggered handler.
+        spec (dict): object spec for Email for which event (i.e. create) has happened.
+        uid (str): UID of Email for which event (i.e. create) has happened.
     """
 
     def _email():
-        """
-        TODO: doc.
-        """
         try:
             sender = esc.create_email_sender_config(
                 namespace, spec.get("senderConfigRef")
@@ -62,9 +83,6 @@ def email_handler(name, namespace, reason, spec, uid, **_):
         return mail
 
     def _send(mail):
-        """
-        TODO: doc.
-        """
         try:
             mail.send()
         except AttributeError:

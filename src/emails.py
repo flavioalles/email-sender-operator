@@ -7,7 +7,8 @@ from email_sender_configs import EmailSenderConfig
 
 class EmailDeliveryStatus(Enum):
     """
-    TODO: doc.
+    Enumerator representing all possible delivery statuses for
+    an Email (below).
     """
 
     UNSENT = "UNSENT"
@@ -18,7 +19,7 @@ class EmailDeliveryStatus(Enum):
 @dataclass
 class EmailStatus(CustomResourceStatus):
     """
-    TODO: doc.
+    Representation of an Email's object status.
     """
 
     delivery_status: EmailDeliveryStatus
@@ -27,7 +28,10 @@ class EmailStatus(CustomResourceStatus):
     @property
     def _serialized(self):
         """
-        TODO: doc.
+        Builds/returns a serialized version of EmailStatus.
+
+        Returns:
+            dict: serialized EmailStatus.
         """
         return {
             "deliveryStatus": self.delivery_status.value,
@@ -37,7 +41,7 @@ class EmailStatus(CustomResourceStatus):
 
 class Email(CRD):
     """
-    TODO: doc.
+    Representation of the namespaced Email Custom Resource.
     """
 
     sender_config_ref: EmailSenderConfig
@@ -50,7 +54,11 @@ class Email(CRD):
 
     def __init__(self, namespace, name, sender, body, recipient_email, subject):
         """
-        TODO: doc.
+        Constructor.
+
+        Args:
+            namespace (str): kubernetes namespace where EmailSenderConfig resides.
+            name (str): EmailSenderConfig name.
         """
         super().__init__(namespace, name)
 
@@ -71,7 +79,14 @@ class Email(CRD):
 
     def set_delivery_status(self, delivery_status: EmailDeliveryStatus):
         """
-        TODO: doc.
+        Sets Email's delivery status.
+
+        Args:
+            delivery_status: EmailDeliveryStatus to set Email status to.
+
+        Note:
+            Sets both instance and Email custom resource delivery status (via cluster
+            API - i.e. CRD.set_status).
         """
         self.set_status(
             EmailStatus(delivery_status=delivery_status, message_id=self.uid)
@@ -79,7 +94,7 @@ class Email(CRD):
 
     def send(self):
         """
-        TODO: doc.
+        Sends email via EmailSenderConfig reference at the sender_config_ref attribute.
         """
         self.sender_config_ref.send(
             self.body, self.recipient_email, self.subject, self.uid
