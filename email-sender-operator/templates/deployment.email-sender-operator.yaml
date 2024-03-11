@@ -18,8 +18,8 @@ spec:
       serviceAccountName: {{ template ".name" . }}-service-account
       containers:
       - name: {{ template ".name" . }}
-        image: flavioalles/email-sender-operator:dev # TODO: change to latest for final version
-        imagePullPolicy: Always # TODO: remove for final version
+        image: flavioalles/email-sender-operator:0.1.0
+        imagePullPolicy: IfNotPresent
         resources:
           limits:
             cpu: "0.8"
