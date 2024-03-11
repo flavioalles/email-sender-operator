@@ -15,6 +15,8 @@ help:
 	@echo "\t run-controller               \t\t Starts controller."
 	@echo "\t create-examples              \t\t Creates example objects (at examples/custom-resources)."
 	@echo "\t delete-examples              \t\t Deletes example objects (at examples/custom-resources)."
+	@echo "\t check                        \t\t Dry-run of black (on src/) reporting diff."
+	@echo "\t format                       \t\t Runs black (on src/)."
 
 .PHONY: poetry
 poetry:
@@ -89,3 +91,11 @@ endif
 .PHONY: delete-examples
 delete-examples:
 	@examples/delete.sh
+
+.PHONY: check
+check:
+	@black --check --diff --target-version=py312 src/
+
+.PHONY: format
+format:
+	@black --target-version=py312 src/

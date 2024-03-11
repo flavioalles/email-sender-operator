@@ -9,6 +9,7 @@ class CustomResourceStatus:
     """
     TODO: doc.
     """
+
     @property
     def _serialized(self):
         """
@@ -21,6 +22,7 @@ class CRD:
     """
     TODO: doc.
     """
+
     api: client.ApiClient
     group: str
     version: str
@@ -60,11 +62,7 @@ class CRD:
         TODO: doc.
         """
         return client.CustomObjectsApi(self.api).get_namespaced_custom_object(
-            self.group,
-            self.version,
-            self.namespace,
-            self.plural,
-            self.name
+            self.group, self.version, self.namespace, self.plural, self.name
         )
 
     @property
@@ -72,13 +70,13 @@ class CRD:
         """
         TODO: doc.
         """
-        return client.CustomObjectsApi(self.api).get_namespaced_custom_object(
-            self.group,
-            self.version,
-            self.namespace,
-            self.plural,
-            self.name
-        ).get("status")
+        return (
+            client.CustomObjectsApi(self.api)
+            .get_namespaced_custom_object(
+                self.group, self.version, self.namespace, self.plural, self.name
+            )
+            .get("status")
+        )
 
     def set_status(self, status: CustomResourceStatus):
         """
@@ -97,7 +95,7 @@ class CRD:
             self.namespace,
             self.plural,
             self.name,
-            {"status": self.status._serialized}
+            {"status": self.status._serialized},
         )
 
     @property

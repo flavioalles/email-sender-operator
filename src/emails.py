@@ -9,6 +9,7 @@ class EmailDeliveryStatus(Enum):
     """
     TODO: doc.
     """
+
     UNSENT = "UNSENT"
     FAILED = "FAILED"
     SENT = "SENT"
@@ -19,6 +20,7 @@ class EmailStatus(CustomResourceStatus):
     """
     TODO: doc.
     """
+
     delivery_status: EmailDeliveryStatus
     message_id: str
 
@@ -29,14 +31,15 @@ class EmailStatus(CustomResourceStatus):
         """
         return {
             "deliveryStatus": self.delivery_status.value,
-            "messageId": self.message_id
+            "messageId": self.message_id,
         }
 
 
 class Email(CRD):
     """
     TODO: doc.
-    # """
+    """
+
     sender_config_ref: EmailSenderConfig
     group: str = "stable.email-sender-operator.dev"
     version: str = "v1"
@@ -60,27 +63,24 @@ class Email(CRD):
         if not self.status:
             # NOTE: First time object is read from cluster.
             # NOTE: Assumes it has never been SENT.
-            self.set_status(EmailStatus(
-                delivery_status=EmailDeliveryStatus.UNSENT,
-                message_id=self.uid
-            ))
+            self.set_status(
+                EmailStatus(
+                    delivery_status=EmailDeliveryStatus.UNSENT, message_id=self.uid
+                )
+            )
 
     def set_delivery_status(self, delivery_status: EmailDeliveryStatus):
         """
         TODO: doc.
         """
-        self.set_status(EmailStatus(
-            delivery_status=delivery_status,
-            message_id=self.uid
-        ))
+        self.set_status(
+            EmailStatus(delivery_status=delivery_status, message_id=self.uid)
+        )
 
     def send(self):
         """
         TODO: doc.
         """
         self.sender_config_ref.send(
-            self.body,
-            self.recipient_email,
-            self.subject,
-            self.uid
+            self.body, self.recipient_email, self.subject, self.uid
         )

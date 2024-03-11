@@ -17,6 +17,7 @@ requests = "~2.31"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "~8"
+black = "~24.2"
 
 [build-system]
 requires = ["poetry-core"]

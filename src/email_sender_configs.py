@@ -13,6 +13,7 @@ class UnknownEmailSender(PermanentError):
     """
     TODO: doc.
     """
+
     pass
 
 
@@ -20,6 +21,7 @@ class MailSendingFailure(PermanentError):
     """
     TODO: doc.
     """
+
     pass
 
 
@@ -27,6 +29,7 @@ class EmailSenderConfig(CRD):
     """
     TODO: doc.
     """
+
     api_token: str
     sender_email: str
     group: str = "stable.email-sender-operator.dev"
@@ -47,10 +50,11 @@ class EmailSenderConfig(CRD):
         """
         TODO: doc.
         """
-        return b64decode(client.CoreV1Api(self.api).read_namespaced_secret(
-            self.name,
-            self.namespace
-        ).data.get("apiToken")).decode("UTF-8")
+        return b64decode(
+            client.CoreV1Api(self.api)
+            .read_namespaced_secret(self.name, self.namespace)
+            .data.get("apiToken")
+        ).decode("UTF-8")
 
     @property
     def _sender_email(self):
@@ -65,10 +69,12 @@ class EmailSenderConfig(CRD):
         """
         pass
 
+
 class MailGun(EmailSenderConfig):
     """
     TODO: doc.
     """
+
     @property
     def _domain(self):
         """
@@ -96,18 +102,20 @@ class MailGun(EmailSenderConfig):
                     "from": self.sender_email,
                     "to": [recipient],
                     "subject": subject,
-                    "text": body
-                }
+                    "text": body,
+                },
             ).raise_for_status()
         except requests.exceptions.HTTPError as exc:
             raise MailSendingFailure(
                 f"Failed to send email with id {uid} (reason: {exc})."
             )
 
+
 class MailerSend(EmailSenderConfig):
     """
     TODO: doc.
     """
+
     @staticmethod
     def _success(result):
         """
@@ -150,13 +158,12 @@ def create_email_sender_config(namespace, name):
     """
     TODO: doc.
     """
+
     def _to_camel_case(name):
         """
         TODO: doc.
         """
-        return "".join(
-            [token.capitalize() for token in name.split("-")]
-        )
+        return "".join([token.capitalize() for token in name.split("-")])
 
     try:
         return globals()[_to_camel_case(name)](namespace, name)

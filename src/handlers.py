@@ -15,19 +15,19 @@ def email_sender_config_handler(name, namespace, reason, **_):
     base_log = f"(handler/EmailSenderConfig) ({namespace}/{name})"
 
     try:
-        esc.create_email_sender_config(
-            namespace, name
-        )
+        esc.create_email_sender_config(namespace, name)
     except esc.UnknownEmailSender as exc:
         logging.error(f"{base_log} {str(exc)}")
     else:
         logging.info(f"{base_log} Known sender {reason.upper()}D.")
+
 
 @kopf.on.create("Email", backoff=30, retries=3, timeout=60)
 def email_handler(name, namespace, reason, spec, uid, **_):
     """
     TODO: doc.
     """
+
     def _email():
         """
         TODO: doc.
@@ -51,7 +51,7 @@ def email_handler(name, namespace, reason, spec, uid, **_):
                 sender,
                 spec.get("body"),
                 spec.get("recipientEmail"),
-                spec.get("subject")
+                spec.get("subject"),
             )
 
             logging.info(
@@ -68,9 +68,7 @@ def email_handler(name, namespace, reason, spec, uid, **_):
         try:
             mail.send()
         except AttributeError:
-            logging.warning(
-                f"""{base_log} Unknown sender. Nothing to do."""
-            )
+            logging.warning(f"""{base_log} Unknown sender. Nothing to do.""")
         except esc.MailSendingFailure as exc:
             logging.error(f"{base_log} {str(exc)}")
             mail.set_delivery_status(eml.EmailDeliveryStatus.FAILED)
